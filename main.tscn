@@ -1,0 +1,79 @@
+[gd_scene load_steps=8 format=3 uid="uid://i0ct531om73b"]
+
+[sub_resource type="Environment" id="Environment_imiwa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bh0eu"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.854902, 0.901961, 0.807843, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdfi4"]
+albedo_color = Color(0.501961, 0.501961, 0.501961, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_es5st"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vw3lq"]
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_color = Color(0.74902, 0.74902, 0.74902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ku3kv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_miciq"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.906801, -0.261931, 0.330308, 0, 0.783542, 0.621339, -0.421558, -0.563431, 0.710517, 0.638356, 1.27813, 0.702671)
+environment = SubResource("Environment_imiwa")
+projection = 1
+current = true
+fov = 88.6
+size = 1.2
+near = 0.001
+
+[node name="Scene" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.178485)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scene"]
+transform = Transform3D(2.47162, 0, 0, 0, 1, 0, 0, 0, 2.89176, 0, 0, 0.0164191)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_cdfi4")
+mesh = SubResource("PlaneMesh_es5st")
+skeleton = NodePath("../..")
+
+[node name="Blocks" type="Node3D" parent="Scene"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.0934637, 0, 0, 0, 0.0934637, 0, 0, 0, 0.0934637, 0.725864, 0.0452631, -0.547197)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_vw3lq")
+mesh = SubResource("BoxMesh_ku3kv")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.305718, 0, 0, 0, 0.305718, 0, 0, 0, 0.305718, 0.25164, 0.0152028, -0.813585)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_vw3lq")
+mesh = SubResource("BoxMesh_ku3kv")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.389483, 0, 0, 0, 0.0833296, 0, 0, 0, 0.335068, -0.237466, 0.00706877, 0.015156)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_vw3lq")
+mesh = SubResource("BoxMesh_ku3kv")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.0934637, 0, 0, 0, 1.02369, 0, 0, 0, 0.0934637, -0.273615, 0.0507656, -0.39964)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_vw3lq")
+mesh = SubResource("BoxMesh_ku3kv")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.390844, 0.0494936, -0.168867)
+material_override = SubResource("StandardMaterial3D_bh0eu")
+material_overlay = SubResource("StandardMaterial3D_vw3lq")
+mesh = SubResource("SphereMesh_miciq")
+skeleton = NodePath("../../MeshInstance3D")
