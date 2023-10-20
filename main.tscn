@@ -1,8 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://i0ct531om73b"]
+[gd_scene load_steps=15 format=3 uid="uid://i0ct531om73b"]
+
+[ext_resource type="Shader" path="res://piexel_filter.gdshader" id="2_7tny3"]
+[ext_resource type="Script" path="res://DirectionalLight3D.gd" id="3_266fk"]
+[ext_resource type="Texture2D" uid="uid://bmopqfe3hafwq" path="res://icon.svg" id="3_erbqn"]
+[ext_resource type="Shader" path="res://cel.gdshader" id="3_sol86"]
 
 [sub_resource type="Environment" id="Environment_imiwa"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nvjej"]
+shader = ExtResource("2_7tny3")
+shader_parameter/pixelate = 218.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bh0eu"]
+blend_mode = 1
 vertex_color_use_as_albedo = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdfi4"]
@@ -10,12 +20,37 @@ albedo_color = Color(0.501961, 0.501961, 0.501961, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_es5st"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iro2h"]
+render_priority = 0
+shader = ExtResource("3_sol86")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = true
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/shade_color = Color(0, 0, 0, 0)
+shader_parameter/specular_tint = Color(0.619608, 0.780392, 0.819608, 1)
+shader_parameter/rim_tint = Color(1, 1, 1, 1)
+shader_parameter/shade_threshold = -0.097
+shader_parameter/shade_softness = 0.0
+shader_parameter/specular_glossiness = 37.7
+shader_parameter/specular_threshold = 0.338
+shader_parameter/specular_softness = 0.567
+shader_parameter/rim_threshold = 0.54
+shader_parameter/rim_softness = 0.714
+shader_parameter/rim_spread = 0.558
+shader_parameter/shadow_threshold = 0.0
+shader_parameter/shadow_softness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ptqm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ku3kv"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vw3lq"]
 vertex_color_use_as_albedo = true
 vertex_color_is_srgb = true
 albedo_color = Color(0.74902, 0.74902, 0.74902, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_ku3kv"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_miciq"]
 
@@ -30,11 +65,22 @@ fov = 88.6
 size = 1.2
 near = 0.001
 
+[node name="Sprite2D" type="Sprite2D" parent="Camera3D"]
+material = SubResource("ShaderMaterial_nvjej")
+position = Vector2(575.5, 324.25)
+scale = Vector2(8.99219, 5.05859)
+texture = ExtResource("3_erbqn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(-0.544741, 0.521058, -0.657081, -0.521057, 0.403633, 0.75205, 0.657082, 0.752049, 0.0516255, -1.42869, 0.60832, -0.28314)
+light_energy = 0.768
+script = ExtResource("3_266fk")
+
 [node name="Scene" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.178485)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Scene"]
-transform = Transform3D(2.47162, 0, 0, 0, 1, 0, 0, 0, 2.89176, 0, 0, 0.0164191)
+transform = Transform3D(2.47162, 0, 0, 0, 1, 0, 0, 0, 2.89176, 0, 0, 0.391541)
 material_override = SubResource("StandardMaterial3D_bh0eu")
 material_overlay = SubResource("StandardMaterial3D_cdfi4")
 mesh = SubResource("PlaneMesh_es5st")
@@ -44,35 +90,35 @@ skeleton = NodePath("../..")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Scene/Blocks"]
 transform = Transform3D(0.0934637, 0, 0, 0, 0.0934637, 0, 0, 0, 0.0934637, 0.725864, 0.0452631, -0.547197)
-material_override = SubResource("StandardMaterial3D_bh0eu")
-material_overlay = SubResource("StandardMaterial3D_vw3lq")
+material_override = SubResource("ShaderMaterial_iro2h")
+material_overlay = SubResource("StandardMaterial3D_2ptqm")
 mesh = SubResource("BoxMesh_ku3kv")
 skeleton = NodePath("../../MeshInstance3D")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Scene/Blocks"]
 transform = Transform3D(0.305718, 0, 0, 0, 0.305718, 0, 0, 0, 0.305718, 0.25164, 0.0152028, -0.813585)
-material_override = SubResource("StandardMaterial3D_bh0eu")
+material_override = SubResource("ShaderMaterial_iro2h")
 material_overlay = SubResource("StandardMaterial3D_vw3lq")
 mesh = SubResource("BoxMesh_ku3kv")
 skeleton = NodePath("../../MeshInstance3D")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="Scene/Blocks"]
 transform = Transform3D(0.389483, 0, 0, 0, 0.0833296, 0, 0, 0, 0.335068, -0.237466, 0.00706877, 0.015156)
-material_override = SubResource("StandardMaterial3D_bh0eu")
+material_override = SubResource("ShaderMaterial_iro2h")
 material_overlay = SubResource("StandardMaterial3D_vw3lq")
 mesh = SubResource("BoxMesh_ku3kv")
 skeleton = NodePath("../../MeshInstance3D")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="Scene/Blocks"]
 transform = Transform3D(0.0934637, 0, 0, 0, 1.02369, 0, 0, 0, 0.0934637, -0.273615, 0.0507656, -0.39964)
-material_override = SubResource("StandardMaterial3D_bh0eu")
+material_override = SubResource("ShaderMaterial_iro2h")
 material_overlay = SubResource("StandardMaterial3D_vw3lq")
 mesh = SubResource("BoxMesh_ku3kv")
 skeleton = NodePath("../../MeshInstance3D")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="Scene/Blocks"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.390844, 0.0494936, -0.168867)
-material_override = SubResource("StandardMaterial3D_bh0eu")
+material_override = SubResource("ShaderMaterial_iro2h")
 material_overlay = SubResource("StandardMaterial3D_vw3lq")
 mesh = SubResource("SphereMesh_miciq")
 skeleton = NodePath("../../MeshInstance3D")
