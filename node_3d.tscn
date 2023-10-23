@@ -1,0 +1,129 @@
+[gd_scene load_steps=13 format=3 uid="uid://nolwgbcvsje0"]
+
+[ext_resource type="Shader" path="res://edge.gdshader" id="1_mx6ef"]
+[ext_resource type="Shader" path="res://cel.gdshader" id="2_4cowt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5by62"]
+blend_mode = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xuu1b"]
+albedo_color = Color(0.501961, 0.501961, 0.501961, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jvg2v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a2r5h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_id5lk"]
+render_priority = 0
+shader = ExtResource("1_mx6ef")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 1.0
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lj13q"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_id5lk")
+shader = ExtResource("2_4cowt")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/shade_color = Color(0, 0, 0, 0.682353)
+shader_parameter/specular_tint = Color(0.619608, 0.780392, 0.819608, 1)
+shader_parameter/rim_tint = Color(1, 1, 1, 1)
+shader_parameter/shade_threshold = -0.163
+shader_parameter/shade_softness = 0.0
+shader_parameter/specular_glossiness = 35.3
+shader_parameter/specular_threshold = 0.01
+shader_parameter/specular_softness = 0.0
+shader_parameter/rim_threshold = 0.351
+shader_parameter/rim_softness = 0.0
+shader_parameter/rim_spread = 0.222
+shader_parameter/shadow_threshold = 0.0
+shader_parameter/shadow_softness = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4t7l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bswx5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83cly"]
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_color = Color(0.784314, 0.388235, 0.054902, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_a20v1"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(-0.842969, -0.261153, -0.470322, 3.58276e-07, 0.874265, -0.485449, 0.537963, -0.409219, -0.736978, 2.22262, 1.82331, -1.54787)
+light_color = Color(1, 0.890196, 0.890196, 1)
+light_energy = 0.072
+light_indirect_energy = 0.884
+light_volumetric_fog_energy = 0.768
+light_specular = 0.0
+omni_range = 3.67
+omni_attenuation = 0.870551
+
+[node name="Scene" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.178485)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Scene"]
+transform = Transform3D(44.1825, 0, 0, 0, 1, 0, 0, 0, 76.0947, 0, 0, 0.391541)
+material_override = SubResource("StandardMaterial3D_5by62")
+material_overlay = SubResource("StandardMaterial3D_xuu1b")
+mesh = SubResource("PlaneMesh_jvg2v")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Scene/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0950263, 0)
+shape = SubResource("BoxShape3D_a2r5h")
+
+[node name="Blocks" type="Node3D" parent="Scene"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.0934637, 0, 0, 0, 0.0934637, 0, 0, 0, 0.0934637, 0.725864, 0.0452631, -0.547197)
+material_override = SubResource("ShaderMaterial_lj13q")
+material_overlay = SubResource("StandardMaterial3D_r4t7l")
+mesh = SubResource("BoxMesh_bswx5")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.305718, 0, 0, 0, 0.305718, 0, 0, 0, 0.305718, 0.229732, 0.0152028, -0.813585)
+material_override = SubResource("ShaderMaterial_lj13q")
+material_overlay = SubResource("StandardMaterial3D_83cly")
+mesh = SubResource("BoxMesh_bswx5")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.389483, 0, 0, 0, 0.0833296, 0, 0, 0, 0.335068, -0.237466, 0.00810637, 0.0149119)
+material_override = SubResource("ShaderMaterial_lj13q")
+material_overlay = SubResource("StandardMaterial3D_83cly")
+mesh = SubResource("BoxMesh_bswx5")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.0934637, 0, 0, 0, 1.02369, 0, 0, 0, 0.0934637, -0.273615, 0.0507656, -0.39964)
+material_override = SubResource("ShaderMaterial_lj13q")
+material_overlay = SubResource("StandardMaterial3D_83cly")
+mesh = SubResource("BoxMesh_bswx5")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Scene/Blocks"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.543794, 0.0494936, -0.0684747)
+material_override = SubResource("ShaderMaterial_lj13q")
+material_overlay = SubResource("StandardMaterial3D_83cly")
+mesh = SubResource("SphereMesh_a20v1")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.817356, 0.576133, 0, -0.576133, 0.817356, 0, 0.556673, 0)
+projection = 1
