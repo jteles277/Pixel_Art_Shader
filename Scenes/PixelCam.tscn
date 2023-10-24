@@ -1,14 +1,16 @@
-[gd_scene load_steps=54 format=3 uid="uid://b7s2ne36tn76b"]
+[gd_scene load_steps=50 format=3 uid="uid://b7s2ne36tn76b"]
 
 [ext_resource type="Script" path="res://Code/Player/SimpleCharacterController.gd" id="1_77dyx"]
 [ext_resource type="Script" path="res://Code/Player/payer_body.gd" id="2_j1g2a"]
 [ext_resource type="Shader" path="res://Art/Shaders/EdgeHighlights.gdshader" id="3_kp0jf"]
 [ext_resource type="Shader" path="res://Art/Shaders/cel.gdshader" id="4_4un55"]
 [ext_resource type="Script" path="res://Code/Rendering/3DPixelCam.gd" id="5_rb6u3"]
+[ext_resource type="PackedScene" uid="uid://bsm8h5jg3egs4" path="res://Scenes/fire_ball.tscn" id="5_sjgrl"]
 [ext_resource type="Script" path="res://Code/Rendering/3DPixelCamDisplay.gd" id="6_hn4w1"]
+[ext_resource type="PackedScene" uid="uid://bd2bqwkc03qqt" path="res://Scenes/still_fire_ball.tscn" id="6_p63rc"]
 [ext_resource type="Shader" path="res://Art/Shaders/PixelArtUpscale.gdshader" id="7_jjs51"]
+[ext_resource type="Script" path="res://Scenes/SubViewport.gd" id="7_y35hk"]
 [ext_resource type="Material" uid="uid://c6l6sc656khqv" path="res://Art/Materials/ObstacleMaterial.tres" id="8_bysks"]
-[ext_resource type="Material" uid="uid://cens0sx66m172" path="res://Art/Materials/Metal.tres" id="9_hi756"]
 [ext_resource type="Texture2D" uid="uid://b16i1day6h8mq" path="res://Art/Models/untitled_Material Base Color.png" id="10_rlhnl"]
 [ext_resource type="Texture2D" uid="uid://drexogc1p6v7w" path="res://Art/Materials/checkerboard.png" id="11_esk4k"]
 [ext_resource type="Material" uid="uid://cens0sx66m172" path="res://Art/Metal.tres" id="12_nocmt"]
@@ -58,7 +60,7 @@ render_priority = 127
 shader = ExtResource("3_kp0jf")
 shader_parameter/shadows_enabled = true
 shader_parameter/highlights_enabled = true
-shader_parameter/shadow_strength = 1.0
+shader_parameter/shadow_strength = 0.8
 shader_parameter/highlight_strength = 0.55
 shader_parameter/highlight_color = Color(1, 1, 1, 1)
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
@@ -108,61 +110,28 @@ tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 1.8, 1, 0, 0.9, 0, 3, 1, 0, 1,
 tracks/1/type = "position_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Mesh2")
+tracks/1/path = NodePath("../Mesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, -1.682, 0.9, -1.692, 1.4, 1, -1.682, 0.9, -1.692, 3, 1, -1.682, 0.9, -1.692)
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 1.1, 0, 1.3, 1, 0, 1, 0, 2.6, 1, 0, 1.1, 0)
 tracks/2/type = "position_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Mesh")
+tracks/2/path = NodePath("../OmniLight3D")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0, 1.1, 0, 1.3, 1, 0, 1, 0, 2.6, 1, 0, 1.1, 0)
-tracks/3/type = "position_3d"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../OmniLight3D")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = PackedFloat32Array(0, 1, 0, 2, 0, 1.5, 1, 0, 1.8, 0)
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 2, 0, 1.5, 1, 0, 1.8, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tb14r"]
 _data = {
 "Idle": SubResource("Animation_mnlhp")
 }
 
-[sub_resource type="Curve" id="Curve_ojvaq"]
-_data = [Vector2(0, 0.557895), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_wm28p"]
-curve = SubResource("Curve_ojvaq")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oc8tc"]
-emission_shape = 1
-emission_sphere_radius = 0.01
-spread = 34.89
-gravity = Vector3(0, 9.8, 0)
-angle_min = -469.2
-angle_max = 469.2
-scale_min = 0.3
-scale_max = 0.6
-scale_curve = SubResource("CurveTexture_wm28p")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_se24j"]
-transparency = 1
-albedo_color = Color(100, 60.36, 1, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_eo7rb"]
-material = SubResource("StandardMaterial3D_se24j")
-
-[sub_resource type="Skin" id="Skin_5pwws"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3v7y2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o8r14"]
 shader = ExtResource("7_jjs51")
+shader_parameter/pixelate = 256.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_x6k7b"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_m7nuq"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0pvek"]
@@ -286,13 +255,15 @@ albedo_color = Color(0, 7.1, 8.28, 1)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lflgj")
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera", "Fire_position")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, -5)
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_77dyx")
 camera = NodePath("../SubViewport/Camera3D")
+Projectile = ExtResource("5_sjgrl")
+Fire_position = NodePath("Node3D/Hands/Still_Fire_Ball")
 
 [node name="CameraProxy" type="RemoteTransform3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 10)
@@ -308,7 +279,8 @@ script = ExtResource("2_j1g2a")
 camera = NodePath("../../SubViewport/Camera3D")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Player/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90146, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, 0)
+visible = false
 light_color = Color(1, 1, 0.811765, 1)
 light_energy = 1.323
 light_indirect_energy = 2.131
@@ -328,13 +300,13 @@ mesh = SubResource("TorusMesh_t1rin")
 transform = Transform3D(0.565, 0, 0, 0, 0.565, 0, 0, 0, 0.565, 0.4895, 0.0366646, 0.4895)
 
 [node name="Mesh" type="MeshInstance3D" parent="Player/Node3D/Hands"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.938411, 0)
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.9875, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
 
 [node name="Mesh2" type="MeshInstance3D" parent="Player/Node3D/Hands"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, -1.682, 0.9, -1.692)
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708002, 2.23518e-08, -0.231095, 0, 0.689386, -2.1598, 0.741303, -0.812912)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
@@ -349,24 +321,11 @@ libraries = {
 "": SubResource("AnimationLibrary_tb14r")
 }
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Player/Node3D/Hands"]
-transform = Transform3D(34.3103, 0, 35.7872, 0, 21.7462, 0, -35.7872, 0, 34.3103, -1.77873, 1.01247, -1.74108)
-randomness = 0.26
-trail_enabled = true
-process_material = SubResource("ParticleProcessMaterial_oc8tc")
-draw_pass_1 = SubResource("CapsuleMesh_eo7rb")
-draw_skin = SubResource("Skin_5pwws")
-
-[node name="GPUParticles3D2" type="GPUParticles3D" parent="Player/Node3D/Hands"]
-transform = Transform3D(34.3103, 0, 35.7872, 0, 21.7462, 0, -35.7872, 0, 34.3103, 0.0758142, 1.01247, 0.036931)
-randomness = 0.26
-trail_enabled = true
-process_material = SubResource("ParticleProcessMaterial_oc8tc")
-draw_pass_1 = SubResource("CapsuleMesh_eo7rb")
-draw_skin = SubResource("Skin_5pwws")
+[node name="Still_Fire_Ball" parent="Player/Node3D/Hands" instance=ExtResource("6_p63rc")]
+transform = Transform3D(1, 0, 5.06639e-07, 0, 1, 0, -5.06639e-07, 0, 1, -2.0969, 1.38772, -0.784033)
 
 [node name="Mesh" type="MeshInstance3D" parent="Player/Node3D"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.07392, 0)
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.1, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
@@ -376,13 +335,16 @@ skeleton = NodePath("../..")
 handle_input_locally = false
 size = Vector2i(322, 182)
 render_target_update_mode = 4
+script = ExtResource("7_y35hk")
+pixelation = 80.0
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(0.707107, -0.353554, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353554, 0.612372, 7.07107, 7, 2.07107)
 projection = 1
 current = true
 size = 8.0
-far = 100.0
+near = 0.001
+far = 232.69
 script = ExtResource("5_rb6u3")
 
 [node name="UI" type="Control" parent="." node_paths=PackedStringArray("viewport")]
@@ -395,9 +357,9 @@ viewport = NodePath("../SubViewport")
 
 [node name="Display" type="Sprite2D" parent="UI"]
 texture_filter = 2
-material = SubResource("ShaderMaterial_3v7y2")
+material = SubResource("ShaderMaterial_o8r14")
 scale = Vector2(0.692547, 0.576923)
-texture = SubResource("ViewportTexture_x6k7b")
+texture = SubResource("ViewportTexture_m7nuq")
 centered = false
 
 [node name="World" type="Node3D" parent="."]
@@ -405,6 +367,7 @@ transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
 transform = Transform3D(-0.0288675, -0.0144338, 0.00833334, 0, 0.0166667, 0.0288675, -0.0166667, 0.025, -0.0144338, -1.0331, 0.245647, 0)
+visible = false
 light_energy = 0.2
 light_indirect_energy = 1.1
 shadow_enabled = true
@@ -430,8 +393,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.547085, 0, 0)
 transform = Transform3D(-1.17285e-05, 0, -0.0375502, 0, 0.0319635, 0, -0.0159991, 0, 2.75269e-05, 0.0239251, 0.058964, 3.88145e-05)
 
 [node name="Cube" type="MeshInstance3D" parent="World/Robots/cube"]
-transform = Transform3D(-1.33083, 0, -7.40401e-08, 0, 0.561145, 0, 1.16037e-07, 0, -0.851615, 0.530459, 0, -0.000167847)
-material_override = ExtResource("9_hi756")
+transform = Transform3D(-1.33083, 0, -7.41566e-08, 0, 0.561145, 0, 1.15979e-07, 0, -0.851614, 0.530459, 0, -0.000167847)
+material_override = ExtResource("12_nocmt")
 material_overlay = SubResource("StandardMaterial3D_g14p7")
 mesh = SubResource("ArrayMesh_h354w")
 skeleton = NodePath("")

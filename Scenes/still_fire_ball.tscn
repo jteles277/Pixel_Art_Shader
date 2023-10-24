@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://bd2bqwkc03qqt"]
+
+[ext_resource type="Script" path="res://Scenes/MeshInstance3D.gd" id="2_k3v4t"]
+
+[sub_resource type="Curve" id="Curve_ojvaq"]
+_data = [Vector2(0, 0.557895), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wm28p"]
+curve = SubResource("Curve_ojvaq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oc8tc"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+spread = 34.89
+gravity = Vector3(0, 9.8, 0)
+angle_min = -469.2
+angle_max = 469.2
+scale_min = 0.1
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_wm28p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_se24j"]
+transparency = 1
+albedo_color = Color(100, 60.36, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_eo7rb"]
+material = SubResource("StandardMaterial3D_se24j")
+
+[sub_resource type="Skin" id="Skin_5pwws"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l0dx8"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(100, 100, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hmepw"]
+
+[node name="Fire_Ball" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 4.47035e-07, 0, 1, 0, -4.47035e-07, 0, 1, -2.0969, 1.38772, -0.784033)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(34.3103, 0, 35.7872, 0, 21.7463, 0, -35.7872, 0, 34.3103, 0, 0.51139, 0)
+randomness = 0.26
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_oc8tc")
+draw_pass_1 = SubResource("CapsuleMesh_eo7rb")
+draw_skin = SubResource("Skin_5pwws")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.21, 0, 1.27724e-08, 0, 0.21, 0, -1.27724e-08, 0, 0.21, -0.03, 0.192, -0.028)
+material_override = SubResource("StandardMaterial3D_l0dx8")
+mesh = SubResource("BoxMesh_hmepw")
+script = ExtResource("2_k3v4t")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1.76991, 0, 0, 0, 1.76991, 0, 0, 0, 1.76991, 0, 0.81075, 0)
+light_color = Color(1, 1, 0.811765, 1)
+light_energy = 1.323
+light_indirect_energy = 2.131
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+shadow_bias = 1.0
+shadow_transmittance_bias = -12.556
+shadow_blur = 0.0
+omni_range = 58.334
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81075, 0)
