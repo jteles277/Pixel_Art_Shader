@@ -1,0 +1,585 @@
+[gd_scene load_steps=54 format=3 uid="uid://b7s2ne36tn76b"]
+
+[ext_resource type="Script" path="res://Code/Player/SimpleCharacterController.gd" id="1_77dyx"]
+[ext_resource type="Script" path="res://Code/Player/payer_body.gd" id="2_j1g2a"]
+[ext_resource type="Shader" path="res://Art/Shaders/EdgeHighlights.gdshader" id="3_kp0jf"]
+[ext_resource type="Shader" path="res://Art/Shaders/cel.gdshader" id="4_4un55"]
+[ext_resource type="Script" path="res://Code/Rendering/3DPixelCam.gd" id="5_rb6u3"]
+[ext_resource type="Script" path="res://Code/Rendering/3DPixelCamDisplay.gd" id="6_hn4w1"]
+[ext_resource type="Shader" path="res://Art/Shaders/PixelArtUpscale.gdshader" id="7_jjs51"]
+[ext_resource type="Material" uid="uid://c6l6sc656khqv" path="res://Art/Materials/ObstacleMaterial.tres" id="8_bysks"]
+[ext_resource type="Material" uid="uid://cens0sx66m172" path="res://Art/Materials/Metal.tres" id="9_hi756"]
+[ext_resource type="Texture2D" uid="uid://b16i1day6h8mq" path="res://Art/Models/untitled_Material Base Color.png" id="10_rlhnl"]
+[ext_resource type="Texture2D" uid="uid://drexogc1p6v7w" path="res://Art/Materials/checkerboard.png" id="11_esk4k"]
+[ext_resource type="Material" uid="uid://cens0sx66m172" path="res://Art/Metal.tres" id="12_nocmt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ejss7"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_owvug"]
+sky_material = SubResource("ProceduralSkyMaterial_ejss7")
+
+[sub_resource type="Environment" id="Environment_lflgj"]
+background_mode = 2
+sky = SubResource("Sky_owvug")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.0
+glow_hdr_threshold = 1.59
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uo05k"]
+size = Vector3(0.346121, 1.96227, 0.410686)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_msywh"]
+render_priority = 127
+shader = ExtResource("3_kp0jf")
+shader_parameter/shadows_enabled = false
+shader_parameter/highlights_enabled = false
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 1.0
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2kyo"]
+next_pass = SubResource("ShaderMaterial_msywh")
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(11.83, 10.65, 1, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_t1rin"]
+inner_radius = 0.984
+outer_radius = 0.771
+rings = 128
+ring_segments = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k4lne"]
+render_priority = 127
+shader = ExtResource("3_kp0jf")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 0.55
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7jk8o"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_k4lne")
+shader = ExtResource("4_4un55")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/shade_color = Color(0, 0, 0, 0.533333)
+shader_parameter/specular_tint = Color(1, 1, 1, 0.74902)
+shader_parameter/rim_tint = Color(0.75, 0.75, 0.75, 0.75)
+shader_parameter/shade_threshold = 0.0
+shader_parameter/shade_softness = 0.01
+shader_parameter/specular_glossiness = 15.0
+shader_parameter/specular_threshold = 0.467
+shader_parameter/specular_softness = 0.1
+shader_parameter/rim_threshold = 0.25
+shader_parameter/rim_softness = 0.05
+shader_parameter/rim_spread = 0.5
+shader_parameter/shadow_threshold = 0.7
+shader_parameter/shadow_softness = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yagdm"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_khc0f"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_faj7f"]
+animation = &"Idle"
+
+[sub_resource type="Animation" id="Animation_mnlhp"]
+resource_name = "Idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 1.8, 1, 0, 0.9, 0, 3, 1, 0, 1, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Mesh2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -1.682, 0.9, -1.692, 1.4, 1, -1.682, 0.9, -1.692, 3, 1, -1.682, 0.9, -1.692)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Mesh")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 1.1, 0, 1.3, 1, 0, 1, 0, 2.6, 1, 0, 1.1, 0)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../OmniLight3D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, 2, 0, 1.5, 1, 0, 1.8, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tb14r"]
+_data = {
+"Idle": SubResource("Animation_mnlhp")
+}
+
+[sub_resource type="Curve" id="Curve_ojvaq"]
+_data = [Vector2(0, 0.557895), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wm28p"]
+curve = SubResource("Curve_ojvaq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oc8tc"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+spread = 34.89
+gravity = Vector3(0, 9.8, 0)
+angle_min = -469.2
+angle_max = 469.2
+scale_min = 0.3
+scale_max = 0.6
+scale_curve = SubResource("CurveTexture_wm28p")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_se24j"]
+transparency = 1
+albedo_color = Color(100, 60.36, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_eo7rb"]
+material = SubResource("StandardMaterial3D_se24j")
+
+[sub_resource type="Skin" id="Skin_5pwws"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3v7y2"]
+shader = ExtResource("7_jjs51")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x6k7b"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0pvek"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bexqa"]
+size = Vector3(2, 0, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g14p7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tle7g"]
+resource_name = "Material"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("10_rlhnl")
+roughness = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_5hy8b"]
+_surfaces = [{
+"aabb": AABB(-1, -1, -0.696413, 2, 2, 1.39283),
+"format": 4097,
+"index_count": 84,
+"index_data": PackedByteArray(8, 0, 6, 0, 4, 0, 8, 0, 10, 0, 6, 0, 11, 0, 6, 0, 10, 0, 11, 0, 7, 0, 6, 0, 7, 0, 4, 0, 6, 0, 7, 0, 5, 0, 4, 0, 5, 0, 11, 0, 9, 0, 5, 0, 7, 0, 11, 0, 1, 0, 2, 0, 0, 0, 1, 0, 3, 0, 2, 0, 5, 0, 8, 0, 4, 0, 5, 0, 9, 0, 8, 0, 12, 0, 9, 0, 13, 0, 12, 0, 8, 0, 9, 0, 14, 0, 10, 0, 15, 0, 14, 0, 11, 0, 10, 0, 15, 0, 8, 0, 12, 0, 15, 0, 10, 0, 8, 0, 13, 0, 11, 0, 14, 0, 13, 0, 9, 0, 11, 0, 1, 0, 14, 0, 3, 0, 1, 0, 13, 0, 14, 0, 2, 0, 12, 0, 0, 0, 2, 0, 15, 0, 12, 0, 3, 0, 15, 0, 2, 0, 3, 0, 14, 0, 15, 0, 0, 0, 13, 0, 1, 0, 0, 0, 12, 0, 13, 0),
+"lods": [0.380977, PackedByteArray(8, 0, 6, 0, 4, 0, 8, 0, 10, 0, 6, 0, 11, 0, 6, 0, 10, 0, 11, 0, 7, 0, 6, 0, 7, 0, 4, 0, 6, 0, 7, 0, 5, 0, 4, 0, 5, 0, 11, 0, 9, 0, 5, 0, 7, 0, 11, 0, 5, 0, 8, 0, 4, 0, 5, 0, 9, 0, 8, 0, 12, 0, 9, 0, 14, 0, 12, 0, 8, 0, 9, 0, 14, 0, 9, 0, 11, 0, 12, 0, 10, 0, 8, 0, 14, 0, 11, 0, 10, 0, 14, 0, 10, 0, 12, 0)],
+"name": "Material",
+"primitive": 3,
+"vertex_count": 16,
+"vertex_data": PackedByteArray(73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 190, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 190, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 62, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 62, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 191, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 191, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 63, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 63, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 191, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 191, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 63, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 63, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 190, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 62)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_h354w"]
+resource_name = "untitled_Cube"
+_surfaces = [{
+"aabb": AABB(-1, -1, -0.696413, 2, 2, 1.39283),
+"attribute_data": PackedByteArray(121, 163, 19, 63, 242, 70, 231, 62, 121, 163, 19, 63, 242, 70, 231, 62, 121, 163, 19, 63, 242, 70, 231, 62, 16, 185, 216, 62, 242, 70, 231, 62, 16, 185, 216, 62, 242, 70, 231, 62, 16, 185, 216, 62, 242, 70, 231, 62, 121, 163, 19, 63, 12, 185, 152, 62, 121, 163, 19, 63, 12, 185, 152, 62, 121, 163, 19, 63, 12, 185, 152, 62, 15, 185, 216, 62, 14, 185, 152, 62, 15, 185, 216, 62, 14, 185, 152, 62, 15, 185, 216, 62, 14, 185, 152, 62, 0, 0, 32, 63, 0, 0, 64, 63, 0, 0, 32, 63, 0, 0, 64, 63, 0, 0, 96, 63, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 64, 63, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 64, 63, 0, 0, 32, 63, 0, 0, 128, 63, 0, 0, 32, 63, 0, 0, 0, 0, 0, 0, 96, 63, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 128, 63, 0, 0, 0, 62, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 0, 0, 0, 0, 32, 63, 0, 0, 0, 63, 0, 0, 32, 63, 0, 0, 0, 63, 0, 0, 32, 63, 0, 0, 0, 63, 0, 0, 32, 63, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 0, 63, 0, 0, 192, 62, 0, 0, 0, 63, 0, 0, 32, 63, 0, 0, 128, 62, 0, 0, 32, 63, 0, 0, 128, 62, 0, 0, 32, 63, 0, 0, 128, 62, 0, 0, 32, 63, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 128, 62, 0, 0, 192, 62, 0, 0, 128, 62, 188, 209, 25, 63, 118, 163, 243, 62, 188, 209, 25, 63, 118, 163, 243, 62, 188, 209, 25, 63, 118, 163, 243, 62, 188, 209, 25, 63, 118, 163, 243, 62, 136, 92, 204, 62, 120, 163, 243, 62, 136, 92, 204, 62, 120, 163, 243, 62, 136, 92, 204, 62, 120, 163, 243, 62, 136, 92, 204, 62, 120, 163, 243, 62, 137, 92, 204, 62, 134, 92, 140, 62, 137, 92, 204, 62, 134, 92, 140, 62, 137, 92, 204, 62, 134, 92, 140, 62, 137, 92, 204, 62, 134, 92, 140, 62, 188, 209, 25, 63, 134, 92, 140, 62, 188, 209, 25, 63, 134, 92, 140, 62, 188, 209, 25, 63, 134, 92, 140, 62, 188, 209, 25, 63, 134, 92, 140, 62, 188, 209, 25, 63, 118, 163, 243, 62, 188, 209, 25, 63, 118, 163, 243, 62, 137, 92, 204, 62, 134, 92, 140, 62, 137, 92, 204, 62, 134, 92, 140, 62),
+"format": 4119,
+"index_count": 84,
+"index_data": PackedByteArray(25, 0, 20, 0, 14, 0, 25, 0, 33, 0, 20, 0, 37, 0, 19, 0, 32, 0, 37, 0, 23, 0, 19, 0, 21, 0, 12, 0, 18, 0, 21, 0, 15, 0, 12, 0, 16, 0, 36, 0, 28, 0, 16, 0, 22, 0, 36, 0, 5, 0, 8, 0, 2, 0, 5, 0, 11, 0, 8, 0, 17, 0, 24, 0, 13, 0, 17, 0, 29, 0, 24, 0, 43, 0, 31, 0, 47, 0, 43, 0, 27, 0, 31, 0, 51, 0, 35, 0, 55, 0, 51, 0, 39, 0, 35, 0, 54, 0, 26, 0, 42, 0, 54, 0, 34, 0, 26, 0, 46, 0, 38, 0, 50, 0, 46, 0, 30, 0, 38, 0, 3, 0, 48, 0, 9, 0, 3, 0, 44, 0, 48, 0, 6, 0, 40, 0, 0, 0, 6, 0, 52, 0, 40, 0, 10, 0, 53, 0, 7, 0, 10, 0, 49, 0, 53, 0, 1, 0, 45, 0, 4, 0, 1, 0, 41, 0, 45, 0),
+"lods": [0.380977, PackedByteArray(25, 0, 20, 0, 14, 0, 25, 0, 33, 0, 20, 0, 37, 0, 19, 0, 32, 0, 37, 0, 23, 0, 19, 0, 21, 0, 12, 0, 18, 0, 21, 0, 15, 0, 12, 0, 16, 0, 36, 0, 28, 0, 16, 0, 22, 0, 36, 0, 17, 0, 24, 0, 13, 0, 17, 0, 29, 0, 24, 0, 57, 0, 30, 0, 49, 0, 57, 0, 26, 0, 30, 0, 58, 0, 30, 0, 38, 0, 56, 0, 34, 0, 26, 0, 59, 0, 38, 0, 34, 0, 59, 0, 34, 0, 41, 0)],
+"material": SubResource("StandardMaterial3D_tle7g"),
+"name": "Material",
+"primitive": 3,
+"vertex_count": 60,
+"vertex_data": PackedByteArray(73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 190, 157, 171, 158, 43, 159, 225, 157, 226, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 190, 197, 191, 255, 127, 255, 127, 254, 255, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 190, 255, 255, 255, 127, 255, 127, 255, 255, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 190, 157, 171, 96, 212, 222, 58, 221, 209, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 190, 197, 191, 255, 127, 255, 127, 255, 255, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 190, 255, 255, 255, 127, 255, 127, 255, 255, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 62, 157, 171, 158, 43, 32, 197, 221, 209, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 62, 255, 255, 57, 192, 255, 127, 254, 255, 73, 248, 66, 63, 254, 87, 67, 63, 121, 33, 119, 62, 255, 255, 255, 127, 255, 127, 255, 255, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 62, 157, 171, 96, 212, 95, 30, 157, 226, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 62, 255, 255, 57, 192, 255, 127, 255, 255, 73, 248, 66, 63, 254, 87, 67, 191, 121, 33, 119, 62, 255, 255, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 191, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 191, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 191, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 191, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 63, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 26, 72, 50, 63, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 63, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 63, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 26, 72, 50, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 191, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 191, 189, 246, 190, 118, 131, 178, 250, 252, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 191, 2, 251, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 191, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 191, 189, 246, 64, 137, 164, 122, 88, 226, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 191, 2, 251, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 63, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 63, 189, 246, 190, 118, 90, 133, 88, 226, 0, 0, 128, 63, 0, 0, 128, 63, 26, 72, 50, 63, 255, 255, 251, 132, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 63, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 63, 189, 246, 64, 137, 123, 77, 250, 252, 0, 0, 128, 63, 0, 0, 128, 191, 26, 72, 50, 63, 255, 255, 251, 132, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 157, 171, 158, 43, 178, 216, 252, 217, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 197, 191, 255, 127, 255, 127, 254, 255, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 189, 246, 190, 118, 151, 193, 144, 253, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 2, 251, 255, 127, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 190, 157, 171, 96, 212, 162, 64, 95, 208, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 190, 197, 191, 255, 127, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 190, 189, 246, 64, 137, 118, 122, 132, 227, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 190, 2, 251, 255, 127, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 157, 171, 96, 212, 76, 39, 252, 217, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 255, 255, 57, 192, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 189, 246, 64, 137, 103, 62, 144, 253, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 255, 255, 251, 132, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 62, 157, 171, 158, 43, 92, 191, 95, 208, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 62, 255, 255, 57, 192, 255, 127, 254, 255, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 62, 189, 246, 190, 118, 136, 133, 132, 227, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 62, 255, 255, 251, 132, 255, 127, 255, 255, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 189, 246, 190, 118, 178, 216, 252, 217, 20, 163, 125, 63, 255, 171, 97, 63, 121, 16, 240, 190, 216, 224, 255, 127, 255, 127, 254, 255, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 189, 246, 64, 137, 76, 39, 252, 217, 20, 163, 125, 63, 255, 171, 97, 191, 121, 16, 240, 62, 255, 255, 55, 159, 255, 127, 255, 255)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_5hy8b")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p5odp"]
+size = Vector3(1, 0.886921, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1n4ua"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(100, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gdbj3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w6r5b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7iyf"]
+render_priority = 0
+shader = ExtResource("3_kp0jf")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 0.8
+shader_parameter/highlight_color = Color(0.890196, 0.890196, 0.890196, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hxysm"]
+render_priority = 5
+next_pass = SubResource("ShaderMaterial_h7iyf")
+shader = ExtResource("4_4un55")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(1, 1, 1, 0.0666667)
+shader_parameter/shade_color = Color(0, 0, 0, 0.627451)
+shader_parameter/specular_tint = Color(0.75, 0.75, 0.75, 0.75)
+shader_parameter/rim_tint = Color(0.74902, 0.74902, 0.74902, 0.74902)
+shader_parameter/shade_threshold = 4.75e-08
+shader_parameter/shade_softness = 0.0
+shader_parameter/specular_glossiness = 15.0
+shader_parameter/specular_threshold = 0.5
+shader_parameter/specular_softness = 0.0
+shader_parameter/rim_threshold = 0.25
+shader_parameter/rim_softness = 0.0
+shader_parameter/rim_spread = 0.5
+shader_parameter/shadow_threshold = 0.61
+shader_parameter/shadow_softness = 0.0
+shader_parameter/base_texture = ExtResource("11_esk4k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eciro"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_lw4bu"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cwwk3"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_5uyi0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y7jm6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hbf5j"]
+render_priority = 127
+shader = ExtResource("3_kp0jf")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 0.17
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g58h"]
+next_pass = SubResource("ShaderMaterial_hbf5j")
+albedo_color = Color(0, 7.1, 8.28, 1)
+
+[node name="Scene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lflgj")
+
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, -5)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+script = ExtResource("1_77dyx")
+camera = NodePath("../SubViewport/Camera3D")
+
+[node name="CameraProxy" type="RemoteTransform3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 10)
+remote_path = NodePath("../../SubViewport/Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(0.949568, 0, 0.313562, 0, 1, 0, -0.313562, 0, 0.949568, 0, 1, 0)
+shape = SubResource("BoxShape3D_uo05k")
+
+[node name="Node3D" type="Node3D" parent="Player" node_paths=PackedStringArray("camera")]
+transform = Transform3D(-0.0210646, 0, -0.999778, 0, 1, 0, 0.999778, 0, -0.0210646, 0, 0, 0)
+script = ExtResource("2_j1g2a")
+camera = NodePath("../../SubViewport/Camera3D")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Player/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90146, 0)
+light_color = Color(1, 1, 0.811765, 1)
+light_energy = 1.323
+light_indirect_energy = 2.131
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+shadow_bias = 1.0
+shadow_transmittance_bias = -12.556
+shadow_blur = 0.0
+omni_range = 58.334
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Node3D/OmniLight3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.313364, 0)
+material_override = SubResource("StandardMaterial3D_l2kyo")
+mesh = SubResource("TorusMesh_t1rin")
+
+[node name="Hands" type="Node3D" parent="Player/Node3D"]
+transform = Transform3D(0.565, 0, 0, 0, 0.565, 0, 0, 0, 0.565, 0.4895, 0.0366646, 0.4895)
+
+[node name="Mesh" type="MeshInstance3D" parent="Player/Node3D/Hands"]
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.938411, 0)
+material_override = SubResource("ShaderMaterial_7jk8o")
+material_overlay = SubResource("StandardMaterial3D_yagdm")
+mesh = SubResource("SphereMesh_khc0f")
+
+[node name="Mesh2" type="MeshInstance3D" parent="Player/Node3D/Hands"]
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, -1.682, 0.9, -1.692)
+material_override = SubResource("ShaderMaterial_7jk8o")
+material_overlay = SubResource("StandardMaterial3D_yagdm")
+mesh = SubResource("SphereMesh_khc0f")
+
+[node name="AnimationTree" type="AnimationTree" parent="Player/Node3D/Hands"]
+tree_root = SubResource("AnimationNodeAnimation_faj7f")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Node3D/Hands"]
+libraries = {
+"": SubResource("AnimationLibrary_tb14r")
+}
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Player/Node3D/Hands"]
+transform = Transform3D(34.3103, 0, 35.7872, 0, 21.7462, 0, -35.7872, 0, 34.3103, -1.77873, 1.01247, -1.74108)
+randomness = 0.26
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_oc8tc")
+draw_pass_1 = SubResource("CapsuleMesh_eo7rb")
+draw_skin = SubResource("Skin_5pwws")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Player/Node3D/Hands"]
+transform = Transform3D(34.3103, 0, 35.7872, 0, 21.7462, 0, -35.7872, 0, 34.3103, 0.0758142, 1.01247, 0.036931)
+randomness = 0.26
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_oc8tc")
+draw_pass_1 = SubResource("CapsuleMesh_eo7rb")
+draw_skin = SubResource("Skin_5pwws")
+
+[node name="Mesh" type="MeshInstance3D" parent="Player/Node3D"]
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.07392, 0)
+material_override = SubResource("ShaderMaterial_7jk8o")
+material_overlay = SubResource("StandardMaterial3D_yagdm")
+mesh = SubResource("SphereMesh_khc0f")
+skeleton = NodePath("../..")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(322, 182)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(0.707107, -0.353554, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353554, 0.612372, 7.07107, 7, 2.07107)
+projection = 1
+current = true
+size = 8.0
+far = 100.0
+script = ExtResource("5_rb6u3")
+
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("viewport")]
+light_mask = 1023
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("6_hn4w1")
+viewport = NodePath("../SubViewport")
+
+[node name="Display" type="Sprite2D" parent="UI"]
+texture_filter = 2
+material = SubResource("ShaderMaterial_3v7y2")
+scale = Vector2(0.692547, 0.576923)
+texture = SubResource("ViewportTexture_x6k7b")
+centered = false
+
+[node name="World" type="Node3D" parent="."]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(-0.0288675, -0.0144338, 0.00833334, 0, 0.0166667, 0.0288675, -0.0166667, 0.025, -0.0144338, -1.0331, 0.245647, 0)
+light_energy = 0.2
+light_indirect_energy = 1.1
+shadow_enabled = true
+shadow_blur = 5.0
+directional_shadow_split_1 = 0.01
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.25
+
+[node name="Floor" type="MeshInstance3D" parent="World"]
+material_override = ExtResource("8_bysks")
+mesh = SubResource("PlaneMesh_0pvek")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_bexqa")
+
+[node name="Robots" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.547085, 0, 0)
+
+[node name="cube" type="StaticBody3D" parent="World/Robots"]
+transform = Transform3D(-1.17285e-05, 0, -0.0375502, 0, 0.0319635, 0, -0.0159991, 0, 2.75269e-05, 0.0239251, 0.058964, 3.88145e-05)
+
+[node name="Cube" type="MeshInstance3D" parent="World/Robots/cube"]
+transform = Transform3D(-1.33083, 0, -7.40401e-08, 0, 0.561145, 0, 1.16037e-07, 0, -0.851615, 0.530459, 0, -0.000167847)
+material_override = ExtResource("9_hi756")
+material_overlay = SubResource("StandardMaterial3D_g14p7")
+mesh = SubResource("ArrayMesh_h354w")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Robots/cube"]
+shape = SubResource("BoxShape3D_p5odp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Robots/cube"]
+transform = Transform3D(0.036541, 0, 2.32831e-10, 0, 0.88412, 0, 3.63798e-11, 0, 0.546375, -0.467039, 0, -0.0115833)
+material_override = SubResource("StandardMaterial3D_1n4ua")
+mesh = SubResource("BoxMesh_gdbj3")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="sphere" type="StaticBody3D" parent="World/Robots"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.0956907, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Robots/sphere"]
+shape = SubResource("SphereShape3D_w6r5b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Robots/sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("ShaderMaterial_hxysm")
+material_overlay = SubResource("StandardMaterial3D_eciro")
+mesh = SubResource("SphereMesh_lw4bu")
+
+[node name="random" type="StaticBody3D" parent="World/Robots"]
+transform = Transform3D(0.03, 0, 0, 0, 0.00155857, 0.0299595, 0, -0.0299595, 0.00155857, -0.0628522, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Robots/random"]
+shape = SubResource("CylinderShape3D_cwwk3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Robots/random"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("ShaderMaterial_hxysm")
+material_overlay = SubResource("StandardMaterial3D_eciro")
+mesh = SubResource("TorusMesh_5uyi0")
+
+[node name="Metal" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.288871, 0, 0)
+
+[node name="cube" type="StaticBody3D" parent="World/Metal"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.023925, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Metal/cube"]
+shape = SubResource("BoxShape3D_p5odp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Metal/cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524874, 0)
+material_override = ExtResource("12_nocmt")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("BoxMesh_y7jm6")
+
+[node name="sphere" type="StaticBody3D" parent="World/Metal"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.0956907, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Metal/sphere"]
+shape = SubResource("SphereShape3D_w6r5b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Metal/sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = ExtResource("12_nocmt")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("SphereMesh_lw4bu")
+
+[node name="random" type="StaticBody3D" parent="World/Metal"]
+transform = Transform3D(0.03, 0, 0, 0, 0.00155857, 0.0299595, 0, -0.0299595, 0.00155857, -0.0628522, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Metal/random"]
+shape = SubResource("CylinderShape3D_cwwk3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Metal/random"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = ExtResource("12_nocmt")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("TorusMesh_5uyi0")
+
+[node name="Base" type="Node3D" parent="World"]
+
+[node name="cube" type="StaticBody3D" parent="World/Base"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.023925, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Base/cube"]
+shape = SubResource("BoxShape3D_p5odp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Base/cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("ShaderMaterial_hxysm")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("BoxMesh_y7jm6")
+
+[node name="sphere" type="StaticBody3D" parent="World/Base"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.0956907, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Base/sphere"]
+shape = SubResource("SphereShape3D_w6r5b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Base/sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("ShaderMaterial_hxysm")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("SphereMesh_lw4bu")
+
+[node name="random" type="StaticBody3D" parent="World/Base"]
+transform = Transform3D(0.03, 0, 0, 0, 0.00155857, 0.0299595, 0, -0.0299595, 0.00155857, -0.0628522, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Base/random"]
+shape = SubResource("CylinderShape3D_cwwk3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Base/random"]
+transform = Transform3D(1, 0, 0, 0, 1, 1.11759e-08, 0, -1.11759e-08, 1, 0, -0.0524875, 0)
+material_override = SubResource("ShaderMaterial_hxysm")
+material_overlay = ExtResource("8_bysks")
+mesh = SubResource("TorusMesh_5uyi0")
+
+[node name="LightSources" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.269947, 0, 0)
+
+[node name="cube" type="StaticBody3D" parent="World/LightSources"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.023925, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/LightSources/cube"]
+shape = SubResource("BoxShape3D_p5odp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/LightSources/cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("StandardMaterial3D_0g58h")
+mesh = SubResource("BoxMesh_y7jm6")
+
+[node name="sphere" type="StaticBody3D" parent="World/LightSources"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.0956907, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/LightSources/sphere"]
+shape = SubResource("SphereShape3D_w6r5b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/LightSources/sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("StandardMaterial3D_0g58h")
+material_overlay = SubResource("StandardMaterial3D_eciro")
+mesh = SubResource("SphereMesh_lw4bu")
+
+[node name="random" type="StaticBody3D" parent="World/LightSources"]
+transform = Transform3D(0.03, 0, 0, 0, 0.00155857, 0.0299595, 0, -0.0299595, 0.00155857, -0.0628522, 0.058964, 3.88145e-05)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/LightSources/random"]
+shape = SubResource("CylinderShape3D_cwwk3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/LightSources/random"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0524875, 0)
+material_override = SubResource("StandardMaterial3D_0g58h")
+material_overlay = SubResource("StandardMaterial3D_eciro")
+mesh = SubResource("TorusMesh_5uyi0")

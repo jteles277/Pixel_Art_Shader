@@ -1,0 +1,38 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cens0sx66m172"]
+
+[ext_resource type="Shader" path="res://Art/Shaders/EdgeHighlights.gdshader" id="1_8dnq5"]
+[ext_resource type="Shader" path="res://Art/Shaders/cel.gdshader" id="2_5otc2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w7gqf"]
+render_priority = 3
+shader = ExtResource("1_8dnq5")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 0.85
+shader_parameter/highlight_strength = 0.85
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_w7gqf")
+shader = ExtResource("2_5otc2")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(1, 1, 1, 0.0392157)
+shader_parameter/shade_color = Color(0, 0, 0, 0.411765)
+shader_parameter/specular_tint = Color(0.74902, 0.74902, 0.74902, 0.968627)
+shader_parameter/rim_tint = Color(1, 1, 1, 0.74902)
+shader_parameter/shade_threshold = 0.0
+shader_parameter/shade_softness = 0.01
+shader_parameter/specular_glossiness = 4.0
+shader_parameter/specular_threshold = 0.35
+shader_parameter/specular_softness = 0.1
+shader_parameter/rim_threshold = 0.25
+shader_parameter/rim_softness = 0.05
+shader_parameter/rim_spread = 0.5
+shader_parameter/shadow_threshold = 0.7
+shader_parameter/shadow_softness = 0.1

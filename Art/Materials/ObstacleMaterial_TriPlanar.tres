@@ -1,0 +1,46 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://f8bwp3dbusxj"]
+
+[ext_resource type="Texture2D" uid="uid://dowdtek8vgcgr" path="res://Art/checkerboard.png" id="1_irxl4"]
+[ext_resource type="Shader" path="res://cel.gdshader" id="2_3utj5"]
+[ext_resource type="Shader" path="res://Code/Shaders/EdgeHighlights.gdshader" id="2_4dc1p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_snxeg"]
+render_priority = 0
+shader = ExtResource("2_3utj5")
+shader_parameter/use_shade = true
+shader_parameter/use_specular = true
+shader_parameter/use_rim = true
+shader_parameter/use_light = true
+shader_parameter/use_shadow = false
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/shade_color = Color(0, 0, 0, 1)
+shader_parameter/specular_tint = Color(0.75, 0.75, 0.75, 0.75)
+shader_parameter/rim_tint = Color(0.75, 0.75, 0.75, 0.75)
+shader_parameter/shade_threshold = 0.0
+shader_parameter/shade_softness = 0.0
+shader_parameter/specular_glossiness = 15.0
+shader_parameter/specular_threshold = 0.5
+shader_parameter/specular_softness = 0.0
+shader_parameter/rim_threshold = 0.25
+shader_parameter/rim_softness = 0.0
+shader_parameter/rim_spread = 0.5
+shader_parameter/shadow_threshold = 0.7
+shader_parameter/shadow_softness = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3qxdc"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_snxeg")
+shader = ExtResource("2_4dc1p")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 1.0
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[resource]
+next_pass = SubResource("ShaderMaterial_3qxdc")
+albedo_texture = ExtResource("1_irxl4")
+uv1_scale = Vector3(2, 2, 2)
+uv1_triplanar = true
+texture_filter = 0

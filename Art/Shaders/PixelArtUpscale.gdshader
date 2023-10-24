@@ -2,11 +2,11 @@
 // adapted to Godot by denovodavid
 
 shader_type canvas_item;
-//render_mode unshaded;
+render_mode unshaded;
 
 void fragment() {
 	// box filter size in texel units
-	vec2 box_size = clamp(fwidth(UV) / TEXTURE_PIXEL_SIZE, 1e-5, 2);
+	vec2 box_size = clamp(fwidth(UV) / TEXTURE_PIXEL_SIZE, 1e-5, 1);
 	// scale uv by texture size to get texel coordinate
 	vec2 tx = UV / TEXTURE_PIXEL_SIZE - 0.5 * box_size;
 	// compute offset for pixel-sized box filter

@@ -1,13 +1,5 @@
-# Pixel_Art_Shader
+# Pixel_Art_Shader 
 
-1
-
-
-
-![alt text](base_scene.png)
-
-
-2
-
-
-![alt text](2.png) 
+![alt text](readme_images/base_scene.png) 
+![alt text](readme_images/2.png) 
+![alt text](readme_images/3.png) 

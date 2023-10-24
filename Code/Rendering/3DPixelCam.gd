@@ -16,7 +16,6 @@ func _process(_delta):
 	var snapped_snap_space_pos: Vector3 = floor(snap_space_pos * texel_snap) / texel_snap
 	var snap_error := snapped_snap_space_pos - snap_space_pos
 	h_offset = snap_error.x
-	v_offset = snap_error.y 
-	
+	v_offset = snap_error.y
 	# NOTE(david): use error to shift the viewport texture on TextureRect/Sprite3D/etc. for extra smooth
-	texel_error = Vector2(snap_error.x, -snap_error.y) * texel_snap 
+	texel_error = Vector2(snap_error.x, -snap_error.y) * texel_snap

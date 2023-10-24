@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bihkdrk1hvu36"]
+
+[ext_resource type="PackedScene" uid="uid://7eyoet87dews" path="res://Art/Models/untitled.glb" id="1_wa00r"]
+
+[node name="Robot_Head" instance=ExtResource("1_wa00r")]
