@@ -263,7 +263,7 @@ axis_lock_angular_z = true
 script = ExtResource("1_77dyx")
 camera = NodePath("../SubViewport/Camera3D")
 Projectile = ExtResource("5_sjgrl")
-Fire_position = NodePath("Node3D/Hands/Still_Fire_Ball")
+Fire_position = NodePath("Body/Hands/Still_Fire_Ball")
 
 [node name="CameraProxy" type="RemoteTransform3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 10)
@@ -273,13 +273,13 @@ remote_path = NodePath("../../SubViewport/Camera3D")
 transform = Transform3D(0.949568, 0, 0.313562, 0, 1, 0, -0.313562, 0, 0.949568, 0, 1, 0)
 shape = SubResource("BoxShape3D_uo05k")
 
-[node name="Node3D" type="Node3D" parent="Player" node_paths=PackedStringArray("camera")]
+[node name="Body" type="Node3D" parent="Player" node_paths=PackedStringArray("camera")]
 transform = Transform3D(-0.0210646, 0, -0.999778, 0, 1, 0, 0.999778, 0, -0.0210646, 0, 0, 0)
 script = ExtResource("2_j1g2a")
 camera = NodePath("../../SubViewport/Camera3D")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Player/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.98, 0)
+[node name="OmniLight3D" type="OmniLight3D" parent="Player/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.91173, 0)
 visible = false
 light_color = Color(1, 1, 0.811765, 1)
 light_energy = 1.323
@@ -291,41 +291,41 @@ shadow_transmittance_bias = -12.556
 shadow_blur = 0.0
 omni_range = 58.334
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Node3D/OmniLight3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Body/OmniLight3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.313364, 0)
 material_override = SubResource("StandardMaterial3D_l2kyo")
 mesh = SubResource("TorusMesh_t1rin")
 
-[node name="Hands" type="Node3D" parent="Player/Node3D"]
+[node name="Hands" type="Node3D" parent="Player/Body"]
 transform = Transform3D(0.565, 0, 0, 0, 0.565, 0, 0, 0, 0.565, 0.4895, 0.0366646, 0.4895)
 
-[node name="Mesh" type="MeshInstance3D" parent="Player/Node3D/Hands"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.9875, 0)
+[node name="Mesh" type="MeshInstance3D" parent="Player/Body/Hands"]
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.963222, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
 
-[node name="Mesh2" type="MeshInstance3D" parent="Player/Node3D/Hands"]
+[node name="Mesh2" type="MeshInstance3D" parent="Player/Body/Hands"]
 transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708002, 2.23518e-08, -0.231095, 0, 0.689386, -2.1598, 0.741303, -0.812912)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
 
-[node name="AnimationTree" type="AnimationTree" parent="Player/Node3D/Hands"]
+[node name="AnimationTree" type="AnimationTree" parent="Player/Body/Hands"]
 tree_root = SubResource("AnimationNodeAnimation_faj7f")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Node3D/Hands"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Body/Hands"]
 libraries = {
 "": SubResource("AnimationLibrary_tb14r")
 }
 
-[node name="Still_Fire_Ball" parent="Player/Node3D/Hands" instance=ExtResource("6_p63rc")]
+[node name="Still_Fire_Ball" parent="Player/Body/Hands" instance=ExtResource("6_p63rc")]
 transform = Transform3D(1, 0, 5.06639e-07, 0, 1, 0, -5.06639e-07, 0, 1, -2.0969, 1.38772, -0.784033)
 
-[node name="Mesh" type="MeshInstance3D" parent="Player/Node3D"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.1, 0)
+[node name="Mesh" type="MeshInstance3D" parent="Player/Body"]
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.04908, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")

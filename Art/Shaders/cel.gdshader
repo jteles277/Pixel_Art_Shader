@@ -79,6 +79,6 @@ void light()
 		diffuse *= vec4(LIGHT_COLOR, 1.0);
 	}
 	
-	DIFFUSE_LIGHT = diffuse.rgb;
+	DIFFUSE_LIGHT += diffuse.rgb;
 	ALPHA = diffuse.a;
 }
