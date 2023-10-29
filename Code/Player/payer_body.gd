@@ -1,5 +1,6 @@
 extends Node3D
 @export var camera: Camera3D
+@export var viewport: SubViewport
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,19 +10,21 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 		
-	#Get the forward and right vectors of the camera
-	var forward = camera.global_transform.basis.z
-	forward.y = 0
-	var right = camera.global_transform.basis.x
-	right.y = 0
 	
-	#Get the input
-	var input:Vector2 = Input.get_vector("left","right","forwards","backwards")
-	var direction:Vector3 = Vector3(input.x,0,input.y)
-	#Make direction relative to the camera  
-	if direction!=Vector3(0,0,0):
+	var space_state = get_world_3d().direct_space_state 
+	var mouse_position = get_viewport().get_mouse_position() 
+	var screen_size = get_tree().get_root().size   
+	var x_ratio = float(viewport.size.x) / screen_size.x
+	var y_ratio = float(viewport.size.y) / screen_size.y 
+	mouse_position = Vector2(mouse_position.x * x_ratio, mouse_position.y* y_ratio) 
+	var rayOrigin = camera.project_ray_origin(mouse_position)	
+	var rayEnd = rayOrigin + camera.project_ray_normal(mouse_position) * 2000
+	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)
+	var intersection = space_state.intersect_ray(query)  
+	if not intersection.is_empty():
 		
-		look_at(global_transform.origin + direction, Vector3.UP)
-		rotation.y = rotation.y+ 80
-
-	pass
+		var pos = intersection.position
+		
+		look_at(Vector3(pos.x,pos.y,pos.z), Vector3(0,1,0))
+		rotation.y = rotation.y + 80
+ 

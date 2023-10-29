@@ -1,7 +1,7 @@
-[gd_scene load_steps=60 format=3 uid="uid://b7s2ne36tn76b"]
+[gd_scene load_steps=64 format=3 uid="uid://b7s2ne36tn76b"]
 
 [ext_resource type="Script" path="res://Code/Player/SimpleCharacterController.gd" id="1_77dyx"]
-[ext_resource type="Script" path="res://Code/Player/payer_body.gd" id="2_j1g2a"]
+[ext_resource type="Script" path="res://Scenes/PixelCam.gd" id="1_xococ"]
 [ext_resource type="Shader" path="res://Art/Shaders/EdgeHighlights.gdshader" id="3_kp0jf"]
 [ext_resource type="Shader" path="res://Art/Shaders/cel.gdshader" id="4_4un55"]
 [ext_resource type="Script" path="res://Code/Rendering/3DPixelCam.gd" id="5_rb6u3"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://Code/Rendering/SubViewport.gd" id="7_anj6w"]
 [ext_resource type="Shader" path="res://Art/Shaders/PixelArtUpscale.gdshader" id="7_jjs51"]
 [ext_resource type="Material" uid="uid://c6l6sc656khqv" path="res://Art/Materials/ObstacleMaterial.tres" id="8_bysks"]
+[ext_resource type="Shader" path="res://Scenes/color_limiter.gdshader" id="10_fe8ek"]
+[ext_resource type="Texture2D" uid="uid://dbfdrj23q8sgi" path="res://Art/Materials/tile3.png" id="11_7dujg"]
 [ext_resource type="Texture2D" uid="uid://drexogc1p6v7w" path="res://Art/Materials/checkerboard.png" id="11_esk4k"]
 [ext_resource type="Script" path="res://Scenes/Robot.gd" id="12_loypl"]
 [ext_resource type="Material" uid="uid://cens0sx66m172" path="res://Art/Metal.tres" id="12_nocmt"]
@@ -134,10 +136,21 @@ shader_parameter/pixelate = 256.0
 [sub_resource type="ViewportTexture" id="ViewportTexture_m7nuq"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_im7cb"]
+shader = ExtResource("10_fe8ek")
+shader_parameter/color_1 = Vector4(0.9, 0.2, 0.2, 1)
+shader_parameter/color_2 = Vector4(0.9, 0.9, 0.5, 1)
+shader_parameter/color_3 = Vector4(0, 0, 0, 1)
+shader_parameter/color_4 = Vector4(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvlww"]
+albedo_color = Color(0.952941, 0.87451, 0.823529, 1)
+albedo_texture = ExtResource("11_7dujg")
+uv1_scale = Vector3(20, 20, 20)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_0pvek"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_bexqa"]
-size = Vector3(2, 0, 2)
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_xttt8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p5odp"]
 size = Vector3(1, 0.886921, 1)
@@ -379,35 +392,36 @@ next_pass = SubResource("ShaderMaterial_hbf5j")
 albedo_color = Color(0, 7.1, 8.28, 1)
 
 [node name="Scene" type="Node3D"]
+script = ExtResource("1_xococ")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_lflgj")
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera", "Fire_position")]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Fire_position", "camera", "body", "viewport")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1.61368, 0, -3.98689)
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_77dyx")
-camera = NodePath("../SubViewport/Camera3D")
+speed = 5.0
 Projectile = ExtResource("5_sjgrl")
 Fire_position = NodePath("Body/Hands/Still_Fire_Ball")
+camera = NodePath("../SubViewport/Camera3D")
+body = NodePath("Body")
+viewport = NodePath("../SubViewport")
 
 [node name="CameraProxy" type="RemoteTransform3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 10)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 2.38419e-07, 7, 10)
 remote_path = NodePath("../../SubViewport/Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(0.949568, 0, 0.313562, 0, 1, 0, -0.313562, 0, 0.949568, 0, 1, 0)
 shape = SubResource("BoxShape3D_uo05k")
 
-[node name="Body" type="Node3D" parent="Player" node_paths=PackedStringArray("camera")]
-transform = Transform3D(-0.0210646, 0, -0.999778, 0, 1, 0, 0.999778, 0, -0.0210646, 0, 0, 0)
-script = ExtResource("2_j1g2a")
-camera = NodePath("../../SubViewport/Camera3D")
+[node name="Body" type="Node3D" parent="Player"]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Player/Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82894, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.90269, 0)
 visible = false
 light_color = Color(1, 1, 0.811765, 1)
 light_energy = 1.323
@@ -428,7 +442,7 @@ mesh = SubResource("TorusMesh_t1rin")
 transform = Transform3D(0.565, 0, 0, 0, 0.565, 0, 0, 0, 0.565, 0.4895, 0.0366646, 0.4895)
 
 [node name="Mesh" type="MeshInstance3D" parent="Player/Body/Hands"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.904608, 0)
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 2.23517e-08, -0.231095, 0, 0.689386, 0, 0.959454, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
@@ -453,7 +467,7 @@ libraries = {
 transform = Transform3D(1, 0, 5.66244e-07, 0, 1, 0, -5.66244e-07, 0, 1, -2.0969, 1.38772, -0.784033)
 
 [node name="Mesh" type="MeshInstance3D" parent="Player/Body"]
-transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.03208, 0)
+transform = Transform3D(0.699831, 0, 0.227646, 0, 0.708, 0, -0.231095, 0, 0.689386, 0, 1.04386, 0)
 material_override = SubResource("ShaderMaterial_7jk8o")
 material_overlay = SubResource("StandardMaterial3D_yagdm")
 mesh = SubResource("SphereMesh_khc0f")
@@ -490,6 +504,13 @@ scale = Vector2(0.692547, 0.576923)
 texture = SubResource("ViewportTexture_m7nuq")
 centered = false
 
+[node name="Display2" type="Sprite2D" parent="UI"]
+texture_filter = 2
+material = SubResource("ShaderMaterial_im7cb")
+scale = Vector2(3.98758, 3.96703)
+texture = SubResource("ViewportTexture_m7nuq")
+centered = false
+
 [node name="World" type="Node3D" parent="."]
 transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
 
@@ -505,15 +526,14 @@ directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.25
 
 [node name="Floor" type="MeshInstance3D" parent="World"]
-material_override = ExtResource("8_bysks")
-material_overlay = ExtResource("8_bysks")
+material_override = SubResource("StandardMaterial3D_dvlww")
 mesh = SubResource("PlaneMesh_0pvek")
 skeleton = NodePath("../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="World/Floor"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor/StaticBody3D"]
-shape = SubResource("BoxShape3D_bexqa")
+shape = SubResource("WorldBoundaryShape3D_xttt8")
 
 [node name="Robots" type="Node3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.547085, 0, 0)
@@ -529,7 +549,7 @@ shape = SubResource("BoxShape3D_p5odp")
 transform = Transform3D(0.999999, 4.9738e-14, 5.82077e-11, 5.68434e-14, 0.999999, 0, -5.82077e-11, -2.08167e-17, 0.999999, 0, 0, 0)
 
 [node name="Head" type="MeshInstance3D" parent="World/Robots/Robot/Body"]
-transform = Transform3D(0.7, 1.69637e-27, -3.46945e-18, 2.84217e-14, 0.7, 1.45717e-17, 3.46945e-18, -1.45717e-17, 0.7, 0, 0.515082, 0)
+transform = Transform3D(0.7, 1.69637e-27, -3.46945e-18, 2.84217e-14, 0.7, 1.45717e-17, 3.46945e-18, -1.45717e-17, 0.7, 0, 0.694576, 0)
 material_override = ExtResource("12_nocmt")
 material_overlay = ExtResource("8_bysks")
 mesh = SubResource("ArrayMesh_bit65")
@@ -542,7 +562,7 @@ mesh = SubResource("BoxMesh_gdbj3")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="Thingies" type="Node3D" parent="World/Robots/Robot/Body"]
-transform = Transform3D(1, 3.55271e-14, 2.91038e-10, 4.26326e-14, 1, -1.38778e-17, -2.91038e-10, -2.08167e-17, 1, 0, 0.569627, 0)
+transform = Transform3D(1, 3.55271e-14, 2.91038e-10, 4.26326e-14, 1, -1.38778e-17, -2.91038e-10, -2.08167e-17, 1, 0, 0.639963, 0)
 
 [node name="Thingy2" type="MeshInstance3D" parent="World/Robots/Robot/Body/Thingies"]
 transform = Transform3D(-1, 1.13687e-13, -2.98023e-08, -1.42109e-13, -1, 7.10543e-15, 2.98023e-08, 1.42109e-14, -1, -1.17397, 0.963, 0.00516701)
@@ -776,7 +796,6 @@ mesh = SubResource("BoxMesh_y7jm6")
 
 [node name="wall" type="StaticBody3D" parent="World/Base"]
 transform = Transform3D(0.363857, 0, 0, 0, 0.132217, 0, 0, 0, 0.03, -0.0135583, 0.0316611, -0.289946)
-visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/Base/wall"]
 shape = SubResource("BoxShape3D_p5odp")
@@ -812,7 +831,7 @@ material_overlay = ExtResource("8_bysks")
 mesh = SubResource("TorusMesh_5uyi0")
 
 [node name="Pilar" type="Node3D" parent="World/Base"]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -0.0342553, 0, -0.0991209)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -0.373001, 0, -0.568587)
 
 [node name="Cube" type="MeshInstance3D" parent="World/Base/Pilar"]
 transform = Transform3D(-0.339362, 0, 0.940655, 0, 1, 0, -0.940655, 0, -0.339362, -1.73604, 10.7681, -7.67907)
