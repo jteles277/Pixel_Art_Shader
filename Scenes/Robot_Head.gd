@@ -8,4 +8,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	translate(Vector3(0,0,delta * -1))
+	translate(Vector3(0,0,delta * -2))

@@ -1,0 +1,36 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://bbn56fh3tys4a"]
+
+[ext_resource type="Shader" uid="uid://c8kmm5siboufp" path="res://Assets/Shaders/grass_shader.tres" id="1"]
+
+[sub_resource type="Curve" id="1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.38182, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="2"]
+curve = SubResource("1")
+
+[sub_resource type="Gradient" id="3"]
+colors = PackedColorArray(0.419608, 0.780392, 0.176471, 1, 0.419608, 0.780392, 0.176471, 1)
+
+[sub_resource type="GradientTexture1D" id="4"]
+gradient = SubResource("3")
+
+[sub_resource type="Gradient" id="Gradient_84reg"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ffd4t"]
+gradient = SubResource("Gradient_84reg")
+
+[resource]
+render_priority = 123
+shader = ExtResource("1")
+shader_parameter/wind_speed = 0.008
+shader_parameter/wind_strength = 2.0
+shader_parameter/wind_texture_tile_size = 50.0
+shader_parameter/wind_vertical_strength = 0.3
+shader_parameter/wind_horizontal_direction = Vector2(1, 0.5)
+shader_parameter/character_position = Vector3(0, 0, 0)
+shader_parameter/character_radius = 1.0
+shader_parameter/character_push_strength = 1.0
+shader_parameter/color_ramp = SubResource("4")
+shader_parameter/wind_noise = SubResource("GradientTexture1D_ffd4t")
+shader_parameter/character_distance_falloff_curve = SubResource("2")
