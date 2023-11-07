@@ -10,7 +10,8 @@ point_count = 2
 curve = SubResource("1")
 
 [sub_resource type="Gradient" id="3"]
-colors = PackedColorArray(0.419608, 0.780392, 0.176471, 1, 0.419608, 0.780392, 0.176471, 1)
+offsets = PackedFloat32Array(0.55625)
+colors = PackedColorArray(0.263668, 0.360705, 0.240411, 1)
 
 [sub_resource type="GradientTexture1D" id="4"]
 gradient = SubResource("3")
@@ -23,7 +24,7 @@ gradient = SubResource("Gradient_84reg")
 [resource]
 render_priority = 123
 shader = ExtResource("1")
-shader_parameter/wind_speed = 0.008
+shader_parameter/wind_speed = 0.0
 shader_parameter/wind_strength = 2.0
 shader_parameter/wind_texture_tile_size = 50.0
 shader_parameter/wind_vertical_strength = 0.3

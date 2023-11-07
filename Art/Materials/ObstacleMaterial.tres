@@ -1,9 +1,9 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c6l6sc656khqv"]
 
-[ext_resource type="Texture2D" uid="uid://drexogc1p6v7w" path="res://Art/Materials/checkerboard.png" id="1_ml3lu"]
+[ext_resource type="Texture2D" uid="uid://dbfdrj23q8sgi" path="res://Art/Materials/tile3.png" id="1_50122"]
 
 [resource]
-albedo_color = Color(0.960784, 1, 1, 1)
-albedo_texture = ExtResource("1_ml3lu")
-uv1_scale = Vector3(15, 10, 10)
+albedo_color = Color(2, 2, 2, 1)
+albedo_texture = ExtResource("1_50122")
+uv1_scale = Vector3(4, 2.668, 2.668)
 texture_filter = 0

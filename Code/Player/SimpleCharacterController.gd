@@ -85,7 +85,7 @@ func handle_rotation(_delta):
 		fire_direction = pos - position
 	
 	# Fire when the left mouse button is pressed
-	if(Input.is_action_pressed("left_mouse") && fire_direction != Vector3(0,0,0)):
+	if(Input.is_action_just_pressed("left_mouse") && fire_direction != Vector3(0,0,0)):
 		fire(fire_direction) 
 
 # Fires an instance of the fire_ball projectile in the set <direction>

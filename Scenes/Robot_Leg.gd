@@ -34,8 +34,3 @@ func _process(delta):
 		distance = (global_position - intersection.position).length() 
 		if distance >= move_treshhold:
 			global_position = intersection.position 
-		
-		
-		
-		print(intersection.position )
-		
