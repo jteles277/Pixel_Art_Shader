@@ -9,6 +9,7 @@ extends CharacterBody3D
 @export var camera: Camera3D
 @export var body: Node3D
 @export var viewport: SubViewport 
+@export var weight: float 
 
 var fire_direction =Vector3(0,0,0) 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -52,7 +53,7 @@ func handle_movement(delta):
 	move_and_slide()
 
 # Handles Player Rotattion 
-func handle_rotation(_delta):
+func handle_rotation(delta):
 	
 	# Get mouse position in the screen and the space state
 	var space_state = get_world_3d().direct_space_state   
@@ -75,10 +76,11 @@ func handle_rotation(_delta):
 	# If there is ant intersections
 	if not intersection.is_empty(): 
 		# We get the position
-		var pos = intersection.position 
+		var pos = intersection.position  
 		
 		# Rotate the player body to looka at that direction
-		body.look_at(Vector3(pos.x,position.y,pos.z), Vector3(0,1,0))
+		body.look_at(Vector3(pos.x,position.y,pos.z), Vector3(0,1,0))  
+ 
 		body.rotation.y = body.rotation.y + 80 
 		
 		# Set the fire direction to be the mouse direction
