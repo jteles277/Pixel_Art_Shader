@@ -3,8 +3,8 @@
 [ext_resource type="Shader" uid="uid://c8kmm5siboufp" path="res://Assets/Shaders/grass_shader.tres" id="1"]
 
 [sub_resource type="Curve" id="1"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.38182, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.277108, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.38182, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="2"]
 curve = SubResource("1")
@@ -24,11 +24,11 @@ gradient = SubResource("Gradient_84reg")
 [resource]
 render_priority = 123
 shader = ExtResource("1")
-shader_parameter/wind_speed = 0.0
-shader_parameter/wind_strength = 2.0
-shader_parameter/wind_texture_tile_size = 50.0
+shader_parameter/wind_speed = 0.1
+shader_parameter/wind_strength = 1.0
+shader_parameter/wind_texture_tile_size = 100.0
 shader_parameter/wind_vertical_strength = 0.3
-shader_parameter/wind_horizontal_direction = Vector2(1, 0.5)
+shader_parameter/wind_horizontal_direction = Vector2(0.5, -1)
 shader_parameter/character_position = Vector3(0, 0, 0)
 shader_parameter/character_radius = 1.0
 shader_parameter/character_push_strength = 1.0

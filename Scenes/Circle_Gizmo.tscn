@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfjxc8vnfmpb"]
+
+[ext_resource type="Shader" path="res://Art/Shaders/EdgeHighlights.gdshader" id="1_ve14w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hbf5j"]
+render_priority = 127
+shader = ExtResource("1_ve14w")
+shader_parameter/shadows_enabled = true
+shader_parameter/highlights_enabled = true
+shader_parameter/shadow_strength = 1.0
+shader_parameter/highlight_strength = 0.17
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g58h"]
+next_pass = SubResource("ShaderMaterial_hbf5j")
+albedo_color = Color(0, 7.1, 8.28, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_m24g1"]
+
+[node name="Leg_Gizmo" type="MeshInstance3D"]
+transform = Transform3D(1, -1.50464e-36, -3.55272e-15, 0, 1, -4.23517e-22, 3.55272e-15, 4.23517e-22, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_0g58h")
+mesh = SubResource("SphereMesh_m24g1")

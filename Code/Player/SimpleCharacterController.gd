@@ -43,6 +43,10 @@ func handle_movement(delta):
 	# Rotate the Camera if the right mouse click is pressed
 	if(Input.is_action_pressed("right_mouse")):
 		rotation_degrees.y +=1 ; 
+		
+	# Rotate the Camera if the right mouse click is pressed
+	if(Input.is_action_pressed("left_mouse")):
+		rotation_degrees.y -=1 ; 
 
 	#Set velocity and move
 	velocity = Vector3(
@@ -87,8 +91,8 @@ func handle_rotation(delta):
 		fire_direction = pos - position
 	
 	# Fire when the left mouse button is pressed
-	if(Input.is_action_just_pressed("left_mouse") && fire_direction != Vector3(0,0,0)):
-		fire(fire_direction) 
+	#if(Input.is_action_just_pressed("left_mouse") && fire_direction != Vector3(0,0,0)):
+	#	fire(fire_direction) 
 
 # Fires an instance of the fire_ball projectile in the set <direction>
 func fire(direction):
