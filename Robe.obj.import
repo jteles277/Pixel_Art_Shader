@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://4env0s8ebu4c"
+path="res://.godot/imported/Robe.obj-54caa6d30d1217d860285a198dbdb306.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Robe.obj-54caa6d30d1217d860285a198dbdb306.mesh"]
+
+source_file="res://Robe.obj"
+dest_files=["res://.godot/imported/Robe.obj-54caa6d30d1217d860285a198dbdb306.mesh", "res://.godot/imported/Robe.obj-54caa6d30d1217d860285a198dbdb306.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

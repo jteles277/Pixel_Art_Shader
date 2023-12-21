@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://q1f1obw7ga1o"
+path="res://.godot/imported/Hair.obj-8bb6d93915af96d82d71461f2e940129.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Hair.obj-8bb6d93915af96d82d71461f2e940129.mesh"]
+
+source_file="res://Hair.obj"
+dest_files=["res://.godot/imported/Hair.obj-8bb6d93915af96d82d71461f2e940129.mesh", "res://.godot/imported/Hair.obj-8bb6d93915af96d82d71461f2e940129.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

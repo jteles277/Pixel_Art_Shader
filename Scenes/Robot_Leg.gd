@@ -36,6 +36,8 @@ func _physics_process(delta):
 	
 	_update_gizmos() 
 	
+	
+	
 	global_position = current_position
 	# Get all intersections of the raycast with the ground 
 	var intersection = get_down_raycast_intersection()
@@ -56,6 +58,10 @@ func _physics_process(delta):
 	else:
 		old_position = new_position
 		
+	look_at(body.global_transform.origin,Vector3.UP)
+	rotation.y += 90
+	rotation.x = 0
+	rotation.z = -180 
 
 func get_down_raycast_intersection():
 	var space_state = get_world_3d().direct_space_state   
