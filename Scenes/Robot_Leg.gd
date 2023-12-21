@@ -58,10 +58,10 @@ func _physics_process(delta):
 	else:
 		old_position = new_position
 		
-	look_at(body.global_transform.origin,Vector3.UP)
+	look_at(Vector3(body.global_transform.origin.x, global_transform.origin.y, body.global_transform.origin.z),Vector3.UP)
 	rotation.y += 90
-	rotation.x = 0
-	rotation.z = -180 
+	#rotation.x = 0
+	#rotation.z = -180
 
 func get_down_raycast_intersection():
 	var space_state = get_world_3d().direct_space_state   
