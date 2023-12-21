@@ -6,7 +6,7 @@
 _data = [Vector2(0, 0.557895), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_wm28p"]
+[sub_resource type="CurveTexture" id="CurveTexture_21bf4"]
 curve = SubResource("Curve_ojvaq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oc8tc"]
@@ -18,14 +18,14 @@ angle_min = -469.2
 angle_max = 469.2
 scale_min = 0.1
 scale_max = 0.3
-scale_curve = SubResource("CurveTexture_wm28p")
+scale_curve = SubResource("CurveTexture_21bf4")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_se24j"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3b1kv"]
 transparency = 1
 albedo_color = Color(100, 60.36, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_eo7rb"]
-material = SubResource("StandardMaterial3D_se24j")
+material = SubResource("StandardMaterial3D_3b1kv")
 
 [sub_resource type="Skin" id="Skin_5pwws"]
 
